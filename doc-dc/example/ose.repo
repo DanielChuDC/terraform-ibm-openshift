@@ -1,0 +1,10 @@
+[rhel-7-server-ansible-2.6-rpms]
+name=rhel-7-server-ansible-2.6-rpms
+baseurl=http://10.66.216.181/repos/ppa/rhel-7-server-ansible-2.6-rpms/
+enabled=1
+gpgcheck=0
+[rhel-7-server-ose-3.11-rpms]
+name=rhel-7-server-ose-3.11-rpms
+baseurl=http://10.66.216.181/repos/ppa/rhel-7-server-ose-3.11-rpms/
+enabled=1
+gpgcheck=0

@@ -1,0 +1,9 @@
+NAME                                           STATUS    ROLES                   AGE       VERSION
+dc-09-jan-206740be30-app-0.ocp-admin.com       Ready     compute,cp-master       2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-app-1.ocp-admin.com       Ready     compute,cp-proxy        2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-app-2.ocp-admin.com       Ready     compute,cp-management   2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-infra-0.ocp-admin.com     Ready     compute,infra           2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-master-0.ocp-admin.com    Ready     compute,master          2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-storage-0.ocp-admin.com   Ready     compute                 2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-storage-1.ocp-admin.com   Ready     compute                 2d        v1.11.0+d4cacc0
+dc-09-jan-206740be30-storage-2.ocp-admin.com   Ready     compute                 2d        v1.11.0+d4cacc0

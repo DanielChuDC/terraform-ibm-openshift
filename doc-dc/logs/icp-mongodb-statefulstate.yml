@@ -1,0 +1,347 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  creationTimestamp: null
+  generation: 1
+  labels:
+    app: icp-mongodb
+    chart: icp-mongodb-3.4.1
+    heritage: Tiller
+    release: mongodb
+  name: icp-mongodb
+  selfLink: /apis/apps/v1/namespaces/kube-system/statefulsets/icp-mongodb
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: icp-mongodb
+      release: mongodb
+  serviceName: icp-mongodb
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "9216"
+        prometheus.io/scrape: "true"
+      creationTimestamp: null
+      labels:
+        app: icp-mongodb
+        release: mongodb
+    spec:
+      containers:
+      - command:
+        - mongod
+        - --config=/data/configdb/mongod.conf
+        env:
+        - name: AUTH
+          value: "true"
+        - name: ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-admin
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-admin
+        image: docker-registry.default.svc:5000/ibmcom/ibm-mongodb:4.0.12-build.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - mongo
+            - --ssl
+            - --sslCAFile=/data/configdb/tls.crt
+            - --sslPEMKeyFile=/work-dir/mongo.pem
+            - --eval
+            - db.adminCommand('ping')
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: icp-mongodb
+        ports:
+        - containerPort: 27017
+          name: peer
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - mongo
+            - --ssl
+            - --sslCAFile=/data/configdb/tls.crt
+            - --sslPEMKeyFile=/work-dir/mongo.pem
+            - --eval
+            - db.adminCommand('ping')
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 8Gi
+          requests:
+            memory: 4Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 999
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongodbdir
+          subPath: datadir
+        - mountPath: /data/configdb
+          name: configdir
+        - mountPath: /work-dir
+          name: mongodbdir
+          subPath: workdir
+        - mountPath: /tmp
+          name: tmp-mongodb
+      - command:
+        - sh
+        - -ec
+        - /bin/mongodb_exporter --mongodb.uri mongodb://$METRICS_USER:$METRICS_PASSWORD@localhost:27017
+          --mongodb.tls --mongodb.tls-ca=/data/configdb/tls.crt --mongodb.tls-cert=/work-dir/mongo.pem
+          --mongodb.socket-timeout=3s --mongodb.sync-timeout=1m --web.telemetry-path=/metrics
+          --web.listen-address=:9216
+        env:
+        - name: METRICS_USER
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-metrics
+        - name: METRICS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-metrics
+        image: docker-registry.default.svc:5000/ibmcom/ibm-mongodb-exporter:3.3.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -ec
+            - /bin/mongodb_exporter --mongodb.uri mongodb://$METRICS_USER:$METRICS_PASSWORD@localhost:27017
+              --mongodb.tls --mongodb.tls-ca=/data/configdb/tls.crt --mongodb.tls-cert=/work-dir/mongo.pem
+              --test
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: metrics
+        ports:
+        - containerPort: 9216
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 999
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data/configdb
+          name: configdir
+        - mountPath: /work-dir
+          name: mongodbdir
+          subPath: workdir
+        - mountPath: /tmp
+          name: tmp-metrics
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - --work-dir=/work-dir
+        - --config-dir=/data/configdb
+        command:
+        - /install/install.sh
+        image: docker-registry.default.svc:5000/ibmcom/ibm-mongodb-install:3.3.1
+        imagePullPolicy: IfNotPresent
+        name: install
+        resources:
+          limits:
+            memory: 8Gi
+          requests:
+            memory: 4Gi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /work-dir
+          name: mongodbdir
+          subPath: workdir
+        - mountPath: /data/configdb
+          name: configdir
+        - mountPath: /configdb-readonly
+          name: config
+        - mountPath: /install
+          name: install
+        - mountPath: /keydir-readonly
+          name: keydir
+        - mountPath: /ca-readonly
+          name: ca
+        - mountPath: /data/db
+          name: mongodbdir
+          subPath: datadir
+        - mountPath: /tmp
+          name: tmp-mongodb
+      - args:
+        - -c
+        - chmod -R 777 /tmp
+        command:
+        - /bin/sh
+        image: docker-registry.default.svc:5000/ibmcom/ibm-mongodb-install:3.3.1
+        imagePullPolicy: IfNotPresent
+        name: install-metrics
+        resources:
+          limits:
+            memory: 256Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-metrics
+      - args:
+        - -on-start=/init/on-start.sh
+        - -service=icp-mongodb
+        command:
+        - /work-dir/peer-finder
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: REPLICA_SET
+          value: rs0
+        - name: AUTH
+          value: "true"
+        - name: ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-admin
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-admin
+        - name: METRICS
+          value: "true"
+        - name: METRICS_USER
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-metrics
+        - name: METRICS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-metrics
+        - name: NETWORK_IP_VERSION
+          value: ipv4
+        image: docker-registry.default.svc:5000/ibmcom/ibm-mongodb:4.0.12-build.2
+        imagePullPolicy: IfNotPresent
+        name: bootstrap
+        resources:
+          limits:
+            memory: 8Gi
+          requests:
+            memory: 4Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 999
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /work-dir
+          name: mongodbdir
+          subPath: workdir
+        - mountPath: /data/configdb
+          name: configdir
+        - mountPath: /init
+          name: init
+        - mountPath: /data/db
+          name: mongodbdir
+          subPath: datadir
+        - mountPath: /tmp
+          name: tmp-mongodb
+      nodeSelector:
+        master: "true"
+      priorityClassName: system-cluster-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: icp-mongodb
+        name: config
+      - configMap:
+          defaultMode: 493
+          name: icp-mongodb-init
+        name: init
+      - configMap:
+          defaultMode: 493
+          name: icp-mongodb-install
+        name: install
+      - name: ca
+        secret:
+          defaultMode: 256
+          secretName: cluster-ca-cert
+      - name: keydir
+        secret:
+          defaultMode: 256
+          secretName: icp-mongodb-keyfile
+      - emptyDir: {}
+        name: configdir
+      - emptyDir: {}
+        name: tmp-mongodb
+      - emptyDir: {}
+        name: tmp-metrics
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - metadata:
+      creationTimestamp: null
+      name: mongodbdir
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+      storageClassName: glusterfs-storage
+    status:
+      phase: Pending
+status:
+  replicas: 0

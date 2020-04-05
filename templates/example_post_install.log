@@ -1,0 +1,90 @@
+[ danielchu ~]$ oc get nodes
+NAME                                           STATUS    ROLES                       AGE       VERSION
+dc-06-dec-d9fccc1737-app-0.ocp-cloud.com       Ready     compute,icp-proxy           4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com     Ready     icp-management,infra        4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-master-0.ocp-cloud.com    Ready     compute,icp-master,master   5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-0.ocp-cloud.com   Ready     compute                     4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-1.ocp-cloud.com   Ready     compute                     4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-2.ocp-cloud.com   Ready     compute                     4h        v1.11.0+d4cacc0
+[ danielchu ~]$ sudo kubectl label nodes dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com node-role.kubernetes.io/compute=true
+Password:
+[ danielchu ~]$ kubectl label nodes dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com node-role.kubernetes.io/compute=true 
+node/dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com labeled
+[ danielchu ~]$ oc get nodes                                                                                            
+NAME                                           STATUS    ROLES                          AGE       VERSION
+dc-06-dec-d9fccc1737-app-0.ocp-cloud.com       Ready     compute,icp-proxy              4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com     Ready     compute,icp-management,infra   4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-master-0.ocp-cloud.com    Ready     compute,icp-master,master      5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-0.ocp-cloud.com   Ready     compute                        4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-1.ocp-cloud.com   Ready     compute                        4h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-2.ocp-cloud.com   Ready     compute                        4h        v1.11.0+d4cacc0
+[ danielchu ~]$ kubectl get pods --namespace kube-system
+NAME                                                             READY   STATUS      RESTARTS   AGE
+auth-idp-tn5dd                                                   4/4     Running     0          2h
+auth-pap-f56b4                                                   2/2     Running     0          2h
+auth-pdp-spcjs                                                   2/2     Running     0          2h
+catalog-ui-69lfj                                                 1/1     Running     0          1h
+custom-metrics-adapter-c857cf8bd-5r87q                           1/1     Running     0          1h
+default-http-backend-6c54c69cf8-6h7qh                            1/1     Running     0          2h
+helm-api-75cbdcf76c-cphss                                        2/2     Running     0          1h
+helm-repo-5f4689667c-z7c64                                       1/1     Running     0          2h
+iam-onboarding-92s5s                                             0/1     Completed   0          1h
+icp-management-ingress-7jvnd                                     1/1     Running     0          2h
+icp-mongodb-0                                                    2/2     Running     0          2h
+logging-elk-client-7dc9bcc5f4-gp4ks                              2/2     Running     0          1h
+logging-elk-data-0                                               1/1     Running     3          1h
+logging-elk-elasticsearch-pki-init-ww7z8                         0/1     Completed   0          1h
+logging-elk-elasticsearch-searchguard-init-gm6t4                 0/1     Completed   1          1h
+logging-elk-filebeat-ds-5hnws                                    1/1     Running     0          1h
+logging-elk-filebeat-ds-5qnl2                                    1/1     Running     0          1h
+logging-elk-filebeat-ds-6jxfd                                    1/1     Running     0          1h
+logging-elk-filebeat-ds-b47zm                                    1/1     Running     0          1h
+logging-elk-filebeat-ds-gtdcq                                    1/1     Running     0          9m
+logging-elk-filebeat-ds-hhk75                                    1/1     Running     0          1h
+logging-elk-kibana-5c5f8655fd-8cndb                              2/2     Running     0          1h
+logging-elk-kibana-init-x6jh7                                    0/1     Completed   0          1h
+logging-elk-logstash-5d94db8d6b-9k6st                            1/1     Running     0          1h
+logging-elk-master-6b675977b4-8mmvr                              1/1     Running     0          1h
+master-api-dc-06-dec-d9fccc1737-master-0.ocp-cloud.com           1/1     Running     4          5h
+master-controllers-dc-06-dec-d9fccc1737-master-0.ocp-cloud.com   1/1     Running     3          5h
+master-etcd-dc-06-dec-d9fccc1737-master-0.ocp-cloud.com          1/1     Running     4          5h
+metering-dm-786b77b599-v4td9                                     1/1     Running     0          1h
+metering-reader-4bsj4                                            1/1     Running     0          1h
+metering-reader-8bh6z                                            1/1     Running     0          1h
+metering-reader-95m72                                            1/1     Running     0          1h
+metering-reader-cw9rk                                            1/1     Running     0          1h
+metering-reader-trc74                                            1/1     Running     0          9m
+metering-reader-zqx5b                                            1/1     Running     0          1h
+metering-ui-7bc8fd8c4-n9wds                                      1/1     Running     0          1h
+metrics-server-799c4c6f48-z4bl8                                  1/1     Running     0          2h
+mgmt-repo-57cc7b57c4-5k57q                                       1/1     Running     0          1h
+monitoring-grafana-85cd46fcbf-zfs2p                              3/3     Running     0          1h
+monitoring-prometheus-5d7c48699f-fc64c                           4/4     Running     0          1h
+monitoring-prometheus-alertmanager-57d6d8bdbc-dd9fv              3/3     Running     0          1h
+monitoring-prometheus-collectdexporter-56b6f5d4b5-2wr9z          2/2     Running     0          1h
+monitoring-prometheus-elasticsearchexporter-78d6b89cd-8cnfp      2/2     Running     0          1h
+monitoring-prometheus-kubestatemetrics-864d4fb7bd-c75nk          2/2     Running     0          1h
+monitoring-prometheus-nodeexporter-94466                         2/2     Running     0          1h
+monitoring-prometheus-nodeexporter-9wmpg                         2/2     Running     0          1h
+monitoring-prometheus-nodeexporter-d5x2r                         2/2     Running     0          1h
+monitoring-prometheus-nodeexporter-d9wsw                         2/2     Running     0          9m
+monitoring-prometheus-nodeexporter-jgqbn                         2/2     Running     0          1h
+monitoring-prometheus-nodeexporter-th6fh                         2/2     Running     0          1h
+nginx-ingress-controller-w7slx                                   1/1     Running     0          2h
+oidc-client-registration-6t86r                                   0/1     Completed   0          2h
+oidcclient-watcher-7469fbd8bd-f6ftp                              1/1     Running     0          1h
+platform-api-744cf846b4-9bf5t                                    1/1     Running     0          2h
+platform-header-rxwv9                                            1/1     Running     0          1h
+platform-ui-7dkws                                                1/1     Running     0          1h
+secret-watcher-6b68c5454b-pnx5s                                  1/1     Running     0          1h
+security-onboarding-64x5n                                        0/1     Completed   0          1h
+tiller-deploy-86566f9976-htllh                                   1/1     Running     0          2h
+web-terminal-5cdf5f68f-vz9gf                                     1/1     Running     0          2h
+[ danielchu ~]$ oc get nodes
+NAME                                           STATUS    ROLES                          AGE       VERSION
+dc-06-dec-d9fccc1737-app-0.ocp-cloud.com       Ready     compute,icp-proxy              5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-infra-0.ocp-cloud.com     Ready     compute,icp-management,infra   5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-master-0.ocp-cloud.com    Ready     compute,icp-master,master      5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-0.ocp-cloud.com   Ready     compute                        5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-1.ocp-cloud.com   Ready     compute                        5h        v1.11.0+d4cacc0
+dc-06-dec-d9fccc1737-storage-2.ocp-cloud.com   Ready     compute                        5h        v1.11.0+d4cacc0

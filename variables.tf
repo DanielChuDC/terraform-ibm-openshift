@@ -85,21 +85,36 @@ variable public_vlanid {
 ### Flavors to be changed to actual values in '#...'
 
 variable bastion_flavor {
-  default = "B1_4X16X25"
+  default = "B1_4X16X100"
 }
 
 variable master_flavor {
-   default = "B1_4X16X25"
+   default = "B1_16X32X100"
 }
 
 variable infra_flavor {
-   default = "B1_4X16X25"
+   default = "B1_16X32X100"
 }
 
 variable app_flavor {
-   default = "B1_4X16X25"
+   default = "B1_16X32X100"
 }
 
 variable storage_flavor {
-   default = "B1_4X16X25"
+   default = "B1_8X16X100"
 }
+
+variable "path_to_rpms_at_media_server" {
+  default="http://10.66.216.183/repos/ppa/rhel-7-server-ansible-2.6-rpms/"
+}
+
+variable "path_to_ansible_rpms_at_media_server" {
+  default=""
+}
+
+variable "path_to_ose_rpms_at_media_server" {
+  default=""
+}
+
+
+

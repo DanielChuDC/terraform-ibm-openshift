@@ -46,15 +46,15 @@ resource "null_resource" "deploy_cluster" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /root/*",
-      "ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml",    
-      "ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml",
+      "ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml -e ansible_user=root",
+      "ansible-playbook -i /root/inventory.cfg /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml -e ansible_user=root",
     ]
   }
 }
 
-#################################################
-# Perform post-install configurations for Openshift
-#################################################
+# #################################################
+# # Perform post-install configurations for Openshift
+# #################################################
 resource "null_resource" "post_install_cluster" {
 
   connection {

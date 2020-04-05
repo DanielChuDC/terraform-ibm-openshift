@@ -5,7 +5,7 @@ resource "ibm_storage_block" "masternode_block" {
   count          = "${var.master_node_count}"
   type           = "Performance"
   datacenter     = "${var.datacenter}"
-  capacity       = 500
+  capacity       = 100
   iops           = 1000
   os_format_type = "Linux"
   hourly_billing = "${var.hourly_billing}"

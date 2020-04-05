@@ -41,6 +41,12 @@ output "infra_private_ip" {
   value = "${module.infranode.infra_private_ip}"
 }
 
+
+output "infra_public_ip" {
+  value = "${module.infranode.infra_public_ip}"
+}
+
+
 output "infra_hostname" {
   value = "${module.infranode.infra_host}"
 }

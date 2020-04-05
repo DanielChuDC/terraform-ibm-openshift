@@ -1,0 +1,45 @@
+#--------------------------------------------------------------------------------------------------------
+#
+# This file provides user defined values as needed to install OKD in the IBM Cloud using Terraform.
+# Provide user values to override the default values as defined in the 000-variables.tf file.
+#
+# The user provided values will override what is defined in the 00-variables.tf file.
+#
+# REQUIRED PARAMETERS:
+#   ibm_api_username
+#   ibm_api_key
+#   datacenter
+#--------------------------------------------------------------------------------------------------------
+# IBMCloud / Softlayer related credentals and datacenter parameters
+#
+# - API user name and API key.  Obtained from the IBM Cloud browser based user interface.
+ibm_sl_username = "<your-username>"
+
+ibm_sl_api_key = "<your key>"
+
+datacenter = "sng01" #use one of SoftLayer Datacenter code
+
+
+#
+# - Add the optional OS user
+#
+oreg_auth_user="<>"
+oreg_auth_password="<>"
+docker_auth_user="<>"
+docker_auth_password="<>"
+quay_auth_user="<>"
+quay_auth_password="<>"
+rhn_username="<>"
+rhn_password="<>"
+
+
+hostname_prefix="dc-06-Dec"
+vm_domain="ocp-cloud.com" # Match the name of FQDN in domain name service
+
+storage_count=3
+
+path_to_rpms_at_media_server="http://10.66.216.183/repos/ppa/rhel-7-server-ansible-2.6-rpms/" #base url format in yum repo file. Change to your own media server where you put ocp rpms.
+path_to_ansible_rpms_at_media_server="http://10.66.216.183/repos/ppa/rhel-7-server-ansible-2.6-rpms/"
+path_to_ose_rpms_at_media_server="http://10.66.216.183/repos/ppa/rhel-7-server-ose-3.11-rpms/"
+
+

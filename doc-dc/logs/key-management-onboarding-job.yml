@@ -1,0 +1,102 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: docker/default
+  creationTimestamp: null
+  labels:
+    app: key-management-onboarding
+    chart: key-management
+    heritage: Tiller
+    release: key-management
+  name: key-management-onboarding
+  selfLink: /apis/batch/v1/namespaces/kube-system/jobs/key-management-onboarding
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: key-management-onboarding
+        chart: key-management
+        heritage: Tiller
+        job-name: key-management-onboarding
+        keyflow: normal
+        layer: mgmt
+        plane: management
+        release: key-management
+        tier: backend
+    spec:
+      containers:
+      - env:
+        - name: MONGO_DB
+          value: platform-db
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-admin
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-admin
+        - name: MONGO_HOST
+          value: mongodb
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_AUTHSOURCE
+          value: admin
+        image: docker-registry.default.svc:5000/ibmcom/kms-onboarding:3.4.0
+        imagePullPolicy: IfNotPresent
+        name: key-management-onboarding
+        resources:
+          limits:
+            cpu: 600m
+            memory: 128Mi
+          requests:
+            cpu: 300m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - IPC_LOCK
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/keyprotect/mongodb-client
+          name: mongodb-client-cert
+        - mountPath: opt/keyprotect/ca
+          name: cluster-ca-cert
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
+        management: "true"
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Exists
+      volumes:
+      - name: mongodb-client-cert
+        secret:
+          defaultMode: 420
+          secretName: icp-mongodb-client-cert
+      - name: cluster-ca-cert
+        secret:
+          defaultMode: 420
+          secretName: cluster-ca-cert
+status: {}

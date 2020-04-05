@@ -84,8 +84,9 @@ module "infranode" {
   infra_flavor          = "${var.infra_flavor}"
   infra_ssh_key_ids     = ["${ibm_compute_ssh_key.ssh_key_ose.id}", "${module.bastion.bastion_public_ssh_key}"]
   infra_private_ssh_key = "${var.private_ssh_key}"
-  infra_node_pub_sg     = "${module.publicsg.openshift_node_id}"
-  infra_node_prv_sg     = "${module.privatesg.openshift_node_id}"
+
+  #infra_node_pub_sg     = "${module.publicsg.openshift_node_id}"
+  #infra_node_prv_sg     = "${module.privatesg.openshift_node_id}"
 }
 
 #####################################################
@@ -104,8 +105,9 @@ module "appnode" {
   app_flavor          = "${var.app_flavor}"
   app_ssh_key_ids     = ["${ibm_compute_ssh_key.ssh_key_ose.id}", "${module.bastion.bastion_public_ssh_key}"]
   app_private_ssh_key = "${var.private_ssh_key}"
-  app_node_pub_sg     = "${module.publicsg.openshift_node_id}"
-  app_node_prv_sg     = "${module.privatesg.openshift_node_id}"
+
+  #app_node_pub_sg     = "${module.publicsg.openshift_node_id}"
+  #app_node_prv_sg     = "${module.privatesg.openshift_node_id}"
 }
 
 #####################################################
@@ -124,8 +126,9 @@ module "storagenode" {
   storage_flavor          = "${var.storage_flavor}"
   storage_ssh_key_ids     = ["${ibm_compute_ssh_key.ssh_key_ose.id}", "${module.bastion.bastion_public_ssh_key}"]
   storage_private_ssh_key = "${var.private_ssh_key}"
-  storage_node_pub_sg     = "${module.publicsg.openshift_node_id}"
-  storage_node_prv_sg     = "${module.privatesg.openshift_node_id}"
+
+  #storage_node_pub_sg     = "${module.publicsg.openshift_node_id}"
+  #storage_node_prv_sg     = "${module.privatesg.openshift_node_id}"
 }
 
 module "inventory" {
@@ -146,8 +149,8 @@ module "inventory" {
   infra_node_count   = "${var.infra_count}"
   app_node_count     = "${var.app_count}"
   storage_node_count = "${var.storage_count}"
-  rhn_username            = "${var.rhn_username}"
-  rhn_password            = "${var.rhn_password}"
+  rhn_username       = "${var.rhn_username}"
+  rhn_password       = "${var.rhn_password}"
 }
 
 #####################################################
@@ -169,22 +172,24 @@ module "openshift" {
 }
 
 module "rhn_register" {
-  source                  = "modules/infrastructure/rhn_register"
-  master_ip_address       = "${module.masternode.master_public_ip}"
-  master_private_ssh_key  = "${var.private_ssh_key}"
-  rhn_username            = "${var.rhn_username}"
-  rhn_password            = "${var.rhn_password}"
-  pool_id                 = "${var.pool_id}"
-  master_count            = "${var.master_count}"
-  infra_ip_address        = "${module.infranode.infra_public_ip}"
-  infra_private_ssh_key   = "${var.private_ssh_key}"
-  infra_count             = "${var.infra_count}"
-  app_ip_address          = "${module.appnode.app_public_ip}"
-  app_private_ssh_key     = "${var.private_ssh_key}"
-  app_count               = "${var.app_count}"
-  storage_ip_address      = "${module.storagenode.storage_public_ip}"
-  storage_private_ssh_key = "${var.private_ssh_key}"
-  storage_count           = "${var.storage_count}"
-  bastion_ip_address      = "${module.bastion.bastion_ip_address}"
-  bastion_private_ssh_key = "${var.private_ssh_key}"
+  source                               = "modules/infrastructure/rhn_register"
+  path_to_ansible_rpms_at_media_server = "${var.path_to_ansible_rpms_at_media_server}"
+  path_to_ose_rpms_at_media_server     = "${var.path_to_ose_rpms_at_media_server}"
+  master_ip_address                    = "${module.masternode.master_public_ip}"
+  master_private_ssh_key               = "${var.private_ssh_key}"
+  rhn_username                         = "${var.rhn_username}"
+  rhn_password                         = "${var.rhn_password}"
+  pool_id                              = "${var.pool_id}"
+  master_count                         = "${var.master_count}"
+  infra_ip_address                     = "${module.infranode.infra_public_ip}"
+  infra_private_ssh_key                = "${var.private_ssh_key}"
+  infra_count                          = "${var.infra_count}"
+  app_ip_address                       = "${module.appnode.app_public_ip}"
+  app_private_ssh_key                  = "${var.private_ssh_key}"
+  app_count                            = "${var.app_count}"
+  storage_ip_address                   = "${module.storagenode.storage_public_ip}"
+  storage_private_ssh_key              = "${var.private_ssh_key}"
+  storage_count                        = "${var.storage_count}"
+  bastion_ip_address                   = "${module.bastion.bastion_ip_address}"
+  bastion_private_ssh_key              = "${var.private_ssh_key}"
 }

@@ -1,0 +1,34 @@
+### [root@dc-09-jan-206740be30-app-0 ~]# cloudctl catalog load-archive --archive agent_ppa_2019.4.0_prod_amd64.tar.gz --registry docker-registry-default.ocp-admin.com/multicluster-endpoint
+Expanding archive
+OK
+
+Importing docker image(s)
+    Loading Image
+  Processing image: reloader:201910211632-multi-arch
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/multicluster-endpoint/reloader:201910211632-multi-arch
+    Loading Image
+  Processing image: k8-monitor:APM_201912042117
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/multicluster-endpoint/k8-monitor:APM_201912042117
+    Loading Image
+  Processing image: k8sdc-operator:APM_201912042117
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/multicluster-endpoint/k8sdc-operator:APM_201912042117
+    Loading Image
+  Processing image: agentoperator:APM_201911270600
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/multicluster-endpoint/agentoperator:APM_201911270600
+OK
+
+Uploading Helm chart(s)
+  Processing chart: charts/icam-clouddc-klusterlet-1.2.0.tgz
+  Updating chart values.yaml
+  Uploading chart
+Loaded Helm chart
+OK
+
+Synch charts
+OK
+
+Archive finished processing

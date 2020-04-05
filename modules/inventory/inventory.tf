@@ -37,6 +37,15 @@ data "template_file" "gluster_block" {
   }
 }
 
+data "template_file" "gluster_registry_block" {
+  count = "${var.storage_node_count}"
+  template = "$${hostname} glusterfs_devices='[ \"/dev/dm-0\", \"/dev/dm-1\", \"/dev/dm-2\"]'"
+  vars {
+   hostname = "${element(var.app_host, count.index)}.${var.domain}"
+   hostip = "${element(var.storage_private_ip, count.index)}"
+  }
+}
+
 
 # Create the new Inventory file with master node info.
 data "template_file" "ose_inventory_new" {
@@ -45,11 +54,13 @@ data "template_file" "ose_inventory_new" {
     master_hostname = "${element(var.master_host, 0)}.${var.domain}"
     infra_hostname = "${element(var.infra_host, 0)}.${var.domain}"
     app_hostname = "${element(var.app_host, 0)}.${var.domain}"
-    subdomain       = "apps.${element(var.infra_public_ip, 0)}.xip.io"
+   // subdomain       = "apps.${element(var.infra_public_ip, 0)}.xip.io"
+    subdomain       = "${var.domain}" # changed to domain, due to the letsencrypt cert is signing on domain ==> *.ocp-cloud.com
     master_block    = "${join("\n", data.template_file.master_block.*.rendered)}"
     compute_block   =  "${join("\n", data.template_file.compute_block.*.rendered)}"
     infra_block     =  "${join("\n", data.template_file.infra_block.*.rendered)}"
     gluster_block   =  "${join("\n", data.template_file.gluster_block.*.rendered)}"
+    gluster_registry_block = "${join("\n", data.template_file.gluster_registry_block.*.rendered)}"
     rhn_username    = "${var.rhn_username}"
     rhn_password    = "${var.rhn_password}"
   }

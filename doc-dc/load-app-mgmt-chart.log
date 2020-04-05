@@ -1,0 +1,275 @@
+# [root@dc-09-jan-206740be30-app-0 ~]# cloudctl catalog load-archive --archive icam_ppa_2019.4.0_prod.tar.gz --registry docker-registry-default.ocp-admin.com/kube-system
+Expanding archive
+
+OK
+
+Importing docker image(s)
+    Loading Image
+  Processing image: agentbootstrap:APM_201912040708
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/agentbootstrap:APM_201912040708
+    Loading Image
+  Processing image: agentmgmt:APM_201911260852
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/agentmgmt:APM_201911260852
+    Loading Image
+  Processing image: akoraui:APM_201912031800
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/akoraui:APM_201912031800
+    Loading Image
+  Processing image: alarmeventsrc:APM_201911252100
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/alarmeventsrc:APM_201911252100
+    Loading Image
+  Processing image: amuirest:APM_201911120046
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/amuirest:APM_201911120046
+    Loading Image
+  Processing image: applicationmgmt:APM_201912042320
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/applicationmgmt:APM_201912042320
+    Loading Image
+  Processing image: applicationmgmt_kafka_consumer_container:APM_201912042320
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/applicationmgmt_kafka_consumer_container:APM_201912042320
+    Loading Image
+  Processing image: applicationmgmt_mcmforwarder_container:APM_201912042320
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/applicationmgmt_mcmforwarder_container:APM_201912042320
+    Loading Image
+  Processing image: appmgmt:APM_201912042320
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/appmgmt:APM_201912042320
+    Loading Image
+  Processing image: appmgmt_authserver:APM_201912042320
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/appmgmt_authserver:APM_201912042320
+    Loading Image
+  Processing image: archiving-service:2.0.22-20191112103614GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/archiving-service:2.0.22-20191112103614GMT
+    Loading Image
+  Processing image: baselineconfiguration:APM_201911252310
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/baselineconfiguration:APM_201911252310
+    Loading Image
+  Processing image: cassandra:3.11.4-201911261905
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/cassandra:3.11.4-201911261905
+    Loading Image
+  Processing image: couchdb:2.3.1-20191115190404GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/couchdb:2.3.1-20191115190404GMT
+    Loading Image
+  Processing image: event-evaluator:RELEASE_201911301038
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/event-evaluator:RELEASE_201911301038
+    Loading Image
+  Processing image: hdm-brokers:1.7.0-20191115T184752Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-brokers:1.7.0-20191115T184752Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-cem-users:1.7.0-20191204T175615Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-cem-users:1.7.0-20191204T175615Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-channelservices:1.7.0-20191120T180847Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-channelservices:1.7.0-20191120T180847Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-datalayer:1.7.0-20191112T205759Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-datalayer:1.7.0-20191112T205759Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-event-analytics-ui:1.7.0-20191204T165542Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-event-analytics-ui:1.7.0-20191204T165542Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-eventpreprocessor:1.7.0-20191119T150735Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-eventpreprocessor:1.7.0-20191119T150735Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-icp-rba-as:1.18.0-ubi-minimal-20191129T153902Z-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-icp-rba-as:1.18.0-ubi-minimal-20191129T153902Z-unlicensed
+    Loading Image
+  Processing image: hdm-icp-rba-rbs:1.18.1-ubi-minimal-20191129T153902Z-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-icp-rba-rbs:1.18.1-ubi-minimal-20191129T153902Z-unlicensed
+    Loading Image
+  Processing image: hdm-incidentprocessor:1.7.0-20191111T123937Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-incidentprocessor:1.7.0-20191111T123937Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-integration-controller:1.7.0-20191115T184748Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-integration-controller:1.7.0-20191115T184748Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-normalizer:1.7.0-20191126T081649Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-normalizer:1.7.0-20191126T081649Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-notificationprocessor:1.7.0-20191120T181518Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-notificationprocessor:1.7.0-20191120T181518Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: hdm-scheduling-ui:1.7.0-20191202T162517Z-multi-arch-unlicensed
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/hdm-scheduling-ui:1.7.0-20191202T162517Z-multi-arch-unlicensed
+    Loading Image
+  Processing image: inference-service:2.1.12-20191205164848GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/inference-service:2.1.12-20191205164848GMT
+    Loading Image
+  Processing image: itopsui:APM_201912031800
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/itopsui:APM_201912031800
+    Loading Image
+  Processing image: kafka:1.1.3-201911141047
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/kafka:1.1.3-201911141047
+    Loading Image
+  Processing image: kafkarest:1.1.3-201911141047
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/kafkarest:1.1.3-201911141047
+    Loading Image
+  Processing image: linking:APM_201911261511
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/linking:APM_201911261511
+    Loading Image
+  Processing image: metricenrichment:APM_201912031855
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metricenrichment:APM_201912031855
+    Loading Image
+  Processing image: metricprovider:APM_201911261419
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metricprovider:APM_201911261419
+    Loading Image
+  Processing image: metric_service_api:REL_201911252301
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metric_service_api:REL_201911252301
+    Loading Image
+  Processing image: metric_service_consumer:REL_201911252301
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metric_service_consumer:REL_201911252301
+    Loading Image
+  Processing image: metric_service_db:REL_201911252301
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metric_service_db:REL_201911252301
+    Loading Image
+  Processing image: metricsummarycreation:APM_201911260255
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metricsummarycreation:APM_201911260255
+    Loading Image
+  Processing image: metric_summary_policy:REL_201911192220
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/metric_summary_policy:REL_201911192220
+    Loading Image
+  Processing image: nasm-elasticsearch:6.5.4.87
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-elasticsearch:6.5.4.87
+    Loading Image
+  Processing image: nasm-event-observer:1.0.13.125
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-event-observer:1.0.13.125
+    Loading Image
+  Processing image: nasm-layout-service:1.0.5.72
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-layout-service:1.0.5.72
+    Loading Image
+  Processing image: nasm-search-service:1.0.10.88
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-search-service:1.0.10.88
+    Loading Image
+  Processing image: nasm-topology-service:1.1.22.1054
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-topology-service:1.1.22.1054
+    Loading Image
+  Processing image: nasm-ubi-base-layer:3.1.0-201911071653
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-ubi-base-layer:3.1.0-201911071653
+    Loading Image
+  Processing image: nasm-ui-api:1.0.2-56
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/nasm-ui-api:1.0.2-56
+    Loading Image
+  Processing image: opencontent-redis-3:1.1.1
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/opencontent-redis-3:1.1.1
+    Loading Image
+  Processing image: opentt-analyzer:APM_201911261722
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/opentt-analyzer:APM_201911261722
+    Loading Image
+  Processing image: opentt-collector:APM_201911261722
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/opentt-collector:APM_201911261722
+    Loading Image
+  Processing image: opentt-dependency:APM_201911261722
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/opentt-dependency:APM_201911261722
+    Loading Image
+  Processing image: opentt-query:APM_201911261722
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/opentt-query:APM_201911261722
+    Loading Image
+  Processing image: policy-registry-service:2.0.118-20191205170733GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/policy-registry-service:2.0.118-20191205170733GMT
+    Loading Image
+  Processing image: spark:1.0.7-20191111182056GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/spark:1.0.7-20191111182056GMT
+    Loading Image
+  Processing image: synthetic-playback-javascript:RELEASE_201911200736
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/synthetic-playback-javascript:RELEASE_201911200736
+    Loading Image
+  Processing image: synthetic-playback-selenium:RELEASE_201911211330
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/synthetic-playback-selenium:RELEASE_201911211330
+    Loading Image
+  Processing image: synthetic:RELEASE_201911260325
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/synthetic:RELEASE_201911260325
+    Loading Image
+  Processing image: temacomm:APM_201911261358
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/temacomm:APM_201911261358
+    Loading Image
+  Processing image: temaconfig:APM_201911261358
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/temaconfig:APM_201911261358
+    Loading Image
+  Processing image: temasda:APM_201911272000
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/temasda:APM_201911272000
+    Loading Image
+  Processing image: threshold:RELEASE_201912030517
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/threshold:RELEASE_201912030517
+    Loading Image
+  Processing image: training-service:2.1.47-20191205152620GMT
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/training-service:2.1.47-20191205152620GMT
+    Loading Image
+  Processing image: ubi-base:8.0.0-201911071625
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/ubi-base:8.0.0-201911071625
+    Loading Image
+  Processing image: zookeeper:1.1.2-201911141638
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/kube-system/zookeeper:1.1.2-201911141638
+OK
+
+Uploading Helm chart(s)
+  Processing chart: charts/ibm-cloud-appmgmt-prod-1.6.0.tgz
+  Updating chart values.yaml
+  Uploading chart
+Loaded Helm chart
+OK
+
+Synch charts
+OK
+
+Archive finished processing

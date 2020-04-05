@@ -19,6 +19,6 @@ output "master_host" {
   value = "${ibm_compute_vm_instance.masternode.*.hostname}"
 }
 
-output "openshift_master_id" {
-  value = "${ibm_security_group.openshift-master.id}"
-}
+# output "openshift_master_id" {
+#   value = "${ibm_security_group.openshift-master.id}"
+# }

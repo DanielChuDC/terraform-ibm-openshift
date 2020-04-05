@@ -1,0 +1,101 @@
+Expanding archive
+OK
+
+Importing docker image(s)
+    Loading Image
+  Processing image: icam-broker:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-broker:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-iaas:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-iaas:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-mongo:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-mongo:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-orchestration:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-orchestration:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-portal-ui:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-portal-ui:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-proxy:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-proxy:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-service-composer-api:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-service-composer-api:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-service-composer-ui:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-service-composer-ui:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-tenant-api:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-tenant-api:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-ui-basic:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-ui-basic:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-terraform:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-terraform:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-helm:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-helm:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-bpd-mariadb:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-bpd-mariadb:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-bpd-cds:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-bpd-cds:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-bpd-ui:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-bpd-ui:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-bpd-mds:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-bpd-mds:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-ico:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-ico:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-bpm:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-bpm:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-controller:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-controller:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-broker:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-broker:4.1.0.0-x86_64
+    Loading Image
+  Processing image: icam-provider-ansible:4.1.0.0-x86_64
+    Tagging Image
+    Pushing image as: docker-registry-default.ocp-admin.com/services/icam-provider-ansible:4.1.0.0-x86_64
+OK
+
+Uploading Helm chart(s)
+  Processing chart: charts/ibm-cam-4.1.0.tgz
+  Updating chart values.yaml
+  Uploading chart
+Loaded Helm chart
+OK
+
+Synch charts
+OK
+
+Archive finished processing

@@ -49,8 +49,8 @@ resource "ibm_compute_vm_instance" "bastion" {
   ssh_key_ids               = ["${var.bastion_ssh_key_id}"]
   private_vlan_id           = "${var.private_vlan_id}"
   public_vlan_id            = "${var.public_vlan_id}"
-  public_security_group_ids = ["${ibm_security_group.openshift-bastion.id}"]
-  private_security_group_ids = ["${ibm_security_group.openshift-bastion.id}"]
+  # public_security_group_ids = ["${ibm_security_group.openshift-bastion.id}"]
+  # private_security_group_ids = ["${ibm_security_group.openshift-bastion.id}"]
   hourly_billing            = "${var.hourly_billing}"
 }
 

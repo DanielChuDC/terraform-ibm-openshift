@@ -1,0 +1,144 @@
+# Licensed Materials - Property of IBM
+# IBM Cloud private
+# @ Copyright IBM Corp. 2019 All Rights Reserved
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+### Run the following command to get the properties down
+# 1. oc get sc
+# 2. kubectl -n openshift-console get route console -o jsonpath='{.spec.host}'| cut -f 2- -d '.'
+# 3. oc get nodes
+
+---
+
+# A list of OpenShift nodes that used to run ICP components
+cluster_nodes:
+  master:
+    - dc-13-dec-43b3f59a8a-master-0.ocp-cloud.com
+  proxy:
+    - dc-13-dec-43b3f59a8a-app-0.ocp-cloud.com
+  management:
+    - dc-13-dec-43b3f59a8a-infra-0.ocp-cloud.com
+#  va:
+#    - dc.okd.161.202.177.19.nip.io
+# https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/supported_environments/openshift/va_openshift_mcm.html
+
+
+
+storage_class: glusterfs-storage
+
+default_admin_user: admin
+default_admin_password: my-avengers-Herolist-ironman3000
+
+openshift:
+  # These values are used by the installer to communicate with OpenShift and install components.
+  # They should match the hostname and port used to connect to the OpenShift console.
+  console:
+    host: dc-13-dec-43b3f59a8a-master-0.ocp-cloud.com
+    port: 8443
+
+  # These values define the hostname to use for the Cloud Pak foundation console and proxy. These
+  # hostnames should resolve to the IP address of the OpenShift router, which is typically the
+  # infrastructure node, or the load balancer that manages traffic for multiple infrastructure
+  # nodes.
+  router:
+    cluster_host: icp-console.ocp-cloud.com
+    # &proxy is a YAML anchor that allows us to refer to this value later when configuring
+    # the IBM Cloud Pak for Integration Platform Navigator
+    proxy_host: &proxy icp-proxy.ocp-cloud.com
+
+
+
+# Enable multicloud-manager
+single_cluster-mode: false
+
+## You can disable following services if they are not needed
+## Disabling services may impact the installation of IBM CloudPaks.
+## Proceed with caution and refer to the Knowledge Center document for specific considerations.
+# auth-idp
+# auth-pap
+# auth-pdp
+# catalog-ui
+# helm-api
+# helm-repo
+# icp-management-ingress
+# metering
+# metrics-server
+# mgmt-repo
+# monitoring
+# nginx-ingress
+# platform-api
+# platform-ui
+# oidcclient-watcher
+# secret-watcher
+# iam-policy-controller
+# security-onboarding
+# web-terminal
+# image-security-enforcement
+
+management_services:
+  monitoring: enabled
+  metering: enabled
+  logging: enabled
+  custom-metrics-adapter: enabled
+  image-security-enforcement: disable # stderr: 'Error: path "/addon/ibmcloud-image-enforcement-3.2.0-rhel.tgz" not found'
+
+kubernetes_cluster_type: openshift
+
+
+
+archive_addons:
+  icp4i:
+    namespace: integration
+    repo: local-charts
+    path: icp4icontent/IBM-Cloud-Pak-for-Integration-2.2.0.tgz
+
+    charts:
+    - name: ibm-icp4i-prod
+      values:
+        tls:
+          # *proxy is a YAML alias that refers to the openshift.console.proxy_host value above using
+          # the &proxy anchor, which reflects the recommendation that the same host is used. This value
+          # can be changed to configure the IBM Cloud Pak for Integration Platform Navigator to use a
+          # different host by removing the *proxy alias and specifying a different hostname.
+          hostname: *proxy
+          generate: true
+
+  mq:
+    namespace: mq
+    repo: local-charts
+    path: icp4icontent/IBM-MQ-Advanced-for-IBM-Cloud-Pak-for-Integration-4.1.0.tgz
+
+  ace:
+    namespace: ace
+    repo: local-charts
+    path: icp4icontent/IBM-App-Connect-Enterprise-for-IBM-Cloud-Pak-for-Integration-2.2.0.tgz
+
+  eventstreams:
+    namespace: eventstreams
+    repo: local-charts
+    path: icp4icontent/IBM-Event-Streams-for-IBM-Cloud-Pak-for-Integration-1.3.2-for-OpenShift.tgz
+
+  apic:
+    namespace: apic
+    repo: local-charts
+    path: icp4icontent/IBM-API-Connect-Enterprise-for-IBM-Cloud-Pak-for-Integration-1.0.3.tgz
+
+  aspera:
+    namespace: aspera
+    repo: local-charts
+    path: icp4icontent/IBM-Aspera-High-Speed-Transfer-Server-for-IBM-Cloud-Pak-for-Integration-1.2.3.tgz
+
+  datapower:
+    namespace: datapower
+    repo: local-charts
+    path: icp4icontent/IBM-DataPower-Virtual-Edition-for-IBM-Cloud-Pak-for-Integration-1.0.4.tgz
+
+  assetrepo:
+    namespace: integration
+    repo: local-charts
+    path: icp4icontent/IBM-Cloud-Pak-for-Integration-Asset-Repository-2.2.0.tgz
+
+  tracing:
+    namespace: tracing
+    repo: local-charts
+    path: icp4icontent/IBM-Cloud-Pak-for-Integration-Operations-Dashboard-1.0.0.tgz

@@ -10,12 +10,13 @@ resource "ibm_compute_vm_instance" "appnode" {
   private_network_only      = "false"
   network_speed             = 1000
   local_disk                = "false"
+  disks                     = ["300"]
   flavor_key_name           = "${var.app_flavor}"
   ssh_key_ids               = ["${var.app_ssh_key_ids}"]
   private_vlan_id           = "${var.private_vlan_id}"
   public_vlan_id           = "${var.public_vlan_id}"
-  public_security_group_ids = ["${var.app_node_pub_sg}"]
-  private_security_group_ids = ["${var.app_node_prv_sg}"]
+  # public_security_group_ids = ["${var.app_node_pub_sg}"]
+  # private_security_group_ids = ["${var.app_node_prv_sg}"]
   hourly_billing             = "${var.hourly_billing}"
 }
 

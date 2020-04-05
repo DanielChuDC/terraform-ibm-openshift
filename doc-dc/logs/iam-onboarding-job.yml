@@ -1,0 +1,329 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  labels:
+    app: iam-onboarding
+    chart: security-onboarding-3.4.1
+    component: iam-onboarding
+    heritage: Tiller
+    release: security-onboarding
+  name: iam-onboarding
+  selfLink: /apis/batch/v1/namespaces/kube-system/jobs/iam-onboarding
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      annotations:
+        productID: 5737-E67
+        productName: IBM Multicloud Manager
+        productVersion: 3.2.1
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+        seccomp.security.alpha.kubernetes.io/pod: docker/default
+      creationTimestamp: null
+      labels:
+        job-name: iam-onboarding
+      name: iam-onboarding
+    spec:
+      containers:
+      - command:
+        - python
+        - /app/acs_utils/build/icp_iam_am_bootstrap.py
+        env:
+        - name: DEFAULT_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              key: admin_username
+              name: platform-auth-idp-credentials
+        - name: AUDIT_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              key: AUDIT_ENABLED
+              name: auth-pdp
+        - name: DEFAULT_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: admin_password
+              name: platform-auth-idp-credentials
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: CLUSTER_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: CLUSTER_NAME
+              name: platform-auth-idp
+        - name: MONGO_DB
+          value: platform-db
+        - name: MONGO_COLLECTION
+          value: iam
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: user
+              name: icp-mongodb-admin
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: icp-mongodb-admin
+        - name: MONGO_HOST
+          value: mongodb
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_AUTHSOURCE
+          value: admin
+        - name: CF_DB_NAME
+          value: security-data
+        - name: DB_NAME
+          value: platform-db
+        - name: CAMS_PDP_URL
+          value: https://iam-pdp:7998
+        - name: IAM_TOKEN_SERVICE_URL
+          value: https://iam-token-service:10443
+        - name: IDENTITY_PROVIDER_URL
+          value: https://platform-identity-provider:4300
+        - name: IAM_PAP_URL
+          value: https://iam-pap:39001
+        - name: DEFAULT_TTL
+          valueFrom:
+            configMapKeyRef:
+              key: PDP_REDIS_CACHE_DEFAULT_TTL
+              name: platform-auth-idp
+        - name: WORKERS
+          value: "15"
+        image: docker-registry.default.svc:5000/ibmcom/icp-iam-onboarding:3.3.0
+        imagePullPolicy: Always
+        name: iam-onboarding
+        resources:
+          limits:
+            cpu: 200m
+            memory: 1000Mi
+          requests:
+            cpu: 20m
+            memory: 50Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /certs/mongodb-ca
+          name: mongodb-ca-cert
+        - mountPath: /certs/auth-pdp
+          name: auth-pdp-secret
+        - mountPath: /certs
+          name: cluster-ca
+        - mountPath: /app/logs/audit
+          name: shared
+        - mountPath: /certs/mongodb-client
+          name: mongodb-client-cert
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - sleep 75; until curl -k -i -fsS https://platform-auth-service:9443/oidc/endpoint/OP/.well-known/openid-configuration
+          | grep "200 OK"; do sleep 3; done;
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: init-auth-service
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - command:
+        - sh
+        - -c
+        - until curl --cacert /certs/ca.crt -i -fsS https://platform-identity-provider:4300
+          | grep "200 OK"; do sleep 3; done;
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: init-identity-provider
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /certs
+          name: cluster-ca
+      - command:
+        - sh
+        - -c
+        - until curl --cacert /certs/ca.crt -i -fsS https://platform-identity-management:4500
+          | grep "200 OK"; do sleep 3; done;
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: init-identity-manager
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /certs
+          name: cluster-ca
+      - command:
+        - sh
+        - -c
+        - until curl -k -i -fsS https://iam-token-service:10443/oidc/keys | grep "200
+          OK"; do sleep 3; done;
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: init-token-service
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - command:
+        - sh
+        - -c
+        - until curl --cacert /certs/ca.crt -i -fsS https://iam-pap:39001/v1/health
+          | grep "200 OK"; do sleep 3; done;
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: init-pap
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /certs
+          name: cluster-ca
+      nodeSelector:
+        master: "true"
+      priorityClassName: system-cluster-critical
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 21000
+        runAsUser: 21000
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      volumes:
+      - name: mongodb-ca-cert
+        secret:
+          defaultMode: 420
+          secretName: cluster-ca-cert
+      - name: cluster-ca
+        secret:
+          defaultMode: 420
+          items:
+          - key: tls.key
+            path: ca.key
+          - key: tls.crt
+            path: ca.crt
+          secretName: cluster-ca-cert
+      - name: auth-pdp-secret
+        secret:
+          defaultMode: 420
+          items:
+          - key: tls.key
+            path: tls.key
+          - key: tls.crt
+            path: tls.crt
+          secretName: auth-pdp-secret
+      - emptyDir: {}
+        name: shared
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: logrotate
+            path: audit
+          name: auth-pdp
+        name: logrotate
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: logrotate-conf
+            path: logrotate.conf
+          name: auth-pdp
+        name: logrotate-conf
+      - name: mongodb-client-cert
+        secret:
+          defaultMode: 420
+          secretName: icp-mongodb-client-cert
+status: {}

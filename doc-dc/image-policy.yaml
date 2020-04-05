@@ -1,0 +1,41 @@
+apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+kind: ClusterImagePolicy
+metadata:
+name: ibmcloud-default-cluster-image-policy
+spec:
+  repositories:
+    # Docker hub Container Registry
+    - name: 'docker.io/*'
+      policy:
+
+    # CoreOS Container Registry
+    - name: 'quay.io/*'
+      policy:
+
+    # Google Container Registry
+    - name: 'gcr.io/*'
+      policy:
+
+    # Azure Container Registry
+    - name: '*azurecr.io/*'
+      policy:
+
+    # Amazon Elastic Container Registry
+    - name: '*amazonaws.com/*'
+      policy:
+
+    # IBM Container Registry
+    - name: 'registry*.bluemix.net/*'
+      policy:
+
+---
+apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+kind: ClusterImagePolicy
+metadata:
+name: ibmcloud-allow-all-cluster-image-policy
+spec:
+  repositories:
+    # allow all images
+    - name: '*'
+      policy:
+## kubectl apply -f policy.yaml

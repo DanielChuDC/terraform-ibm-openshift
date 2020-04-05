@@ -1,0 +1,96 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  labels:
+    app: oidc-client-registration
+    chart: auth-idp-3.4.1
+    component: oidc-client-registration
+    heritage: Tiller
+    release: auth-idp
+  name: oidc-client-registration
+  selfLink: /apis/batch/v1/namespaces/kube-system/jobs/oidc-client-registration
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+        seccomp.security.alpha.kubernetes.io/pod: docker/default
+      creationTimestamp: null
+      labels:
+        app: oidc-client-registration
+        chart: auth-idp-3.4.1
+        component: oidc-client-registration
+        heritage: Tiller
+        job-name: oidc-client-registration
+        release: auth-idp
+      name: oidc-client-registration
+    spec:
+      containers:
+      - command:
+        - /scripts/register-client.sh
+        env:
+        - name: WLP_CLIENT_REGISTRATION_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: OAUTH2_CLIENT_REGISTRATION_SECRET
+              name: platform-oidc-credentials
+        - name: WLP_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: WLP_CLIENT_ID
+              name: platform-oidc-credentials
+        image: docker-registry.default.svc:5000/ibmcom/icp-platform-auth:3.3.0
+        imagePullPolicy: Always
+        name: oidc-client-registration
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /scripts
+          name: registration-script
+        - mountPath: /jsons
+          name: registration-json
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        master: "true"
+      priorityClassName: system-cluster-critical
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 21000
+        runAsUser: 21000
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: dedicated
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 511
+          name: registration-script
+        name: registration-script
+      - configMap:
+          defaultMode: 511
+          name: registration-json
+        name: registration-json
+status: {}

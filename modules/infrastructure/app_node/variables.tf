@@ -27,9 +27,9 @@ variable "app_os_ref_code" {
 }
 variable "app_flavor" {}
 
-variable "app_node_pub_sg" {}
+# variable "app_node_pub_sg" {}
 
-variable "app_node_prv_sg" {}
+# variable "app_node_prv_sg" {}
 
 variable "app_ssh_key_ids" {
   type = "list"

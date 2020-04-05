@@ -2,10 +2,10 @@
 # Storage for App Nodes
 #################################################
 resource "ibm_storage_block" "appnode_block" {
-  count          = "${var.app_node_count}"
+  count          = "${var.app_node_count*3 }"
   type           = "${var.block_storage_type}"
   datacenter     = "${var.datacenter}"
-  capacity       = 500
+  capacity       = 100
   iops           = 1000
   os_format_type = "Linux"
   hourly_billing = "${var.hourly_billing}"

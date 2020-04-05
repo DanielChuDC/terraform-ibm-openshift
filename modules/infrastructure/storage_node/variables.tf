@@ -25,9 +25,9 @@ variable "storage_flavor" {}
 variable "storage_os_ref_code" {
   default = "REDHAT_7_64"
 }
-variable "storage_node_pub_sg" {}
+# variable "storage_node_pub_sg" {}
 
-variable "storage_node_prv_sg" {}
+# variable "storage_node_prv_sg" {}
 
 variable "storage_ssh_key_ids" {
   type = "list"
